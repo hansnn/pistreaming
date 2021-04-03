@@ -60,7 +60,7 @@ class HttpHandler(BaseHTTPRequestHandler):
     def do_GET(self):
         if self.path == '/screenshots':
             _, _, content = next(os.walk('./screenshots'))
-            self.json_response(200, ['/screenshots/' + x for x in content])
+            self.json_response(200, ['/screenshots/' + x for x in content if x != '.gitignore'])
             return
         elif self.path.startswith('/screenshots/'):
             filename = self.path[1:]  # Remove first slash from '/screenshots/<file>'
