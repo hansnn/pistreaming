@@ -63,8 +63,10 @@ class HttpHandler(BaseHTTPRequestHandler):
             self.json_response(200, ['/screenshots/' + x for x in content if x != '.gitignore'])
             return
         elif self.path.startswith('/screenshots/'):
-            filename = self.path[1:]  # Remove first slash from '/screenshots/<file>'
-            with open(filename, 'rb') as f:
+            # Remove '/screenshots' so that only the first slash and the filename remains
+            filename = self.path[12:]
+            
+            with open(SCREENSHOTS_PATH + filename, 'rb') as f:
                 self.image_response(f.read())
             return
         else:
