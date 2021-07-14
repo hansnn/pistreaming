@@ -60,12 +60,17 @@ class HttpHandler(BaseHTTPRequestHandler):
     def do_GET(self):
         if self.path == '/screenshots':
             _, _, content = next(os.walk(SCREENSHOTS_PATH))
-            self.json_response(200, ['/screenshots/' + x for x in content if x != '.gitignore'])
+            screenshots = [x for x in content if x != '.gitignore']
+            screenshots.sort(
+                key=lambda screenshot: datetime.strptime(screenshot, '%d-%m-%Y_%H-%M-%S.jpg'),
+                reverse=True
+            )
+            self.json_response(200, ['/screenshots/' + x for x in screenshots])
             return
         elif self.path.startswith('/screenshots/'):
             # Remove '/screenshots' so that only the first slash and the filename remains
             filename = self.path[12:]
-            
+
             with open(SCREENSHOTS_PATH + filename, 'rb') as f:
                 self.image_response(f.read())
             return
