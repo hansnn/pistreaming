@@ -6,3 +6,4 @@ FRAMERATE = 24
 RECORD_SECONDS_AT_A_TIME = 5
 VFLIP = True
 HFLIP = False
+SCREENSHOTS_PATH = '/home/pi/site/pistreaming/screenshots'

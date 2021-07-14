@@ -3,7 +3,7 @@ from datetime import datetime, timedelta
 from time import time
 from http.server import HTTPServer
 from threading import Thread
-from config import HTTP_PORT, RECORD_SECONDS_AT_A_TIME
+from config import HTTP_PORT, RECORD_SECONDS_AT_A_TIME, SCREENSHOTS_PATH
 import json
 import os
 
@@ -59,7 +59,7 @@ class HttpHandler(BaseHTTPRequestHandler):
 
     def do_GET(self):
         if self.path == '/screenshots':
-            _, _, content = next(os.walk('./screenshots'))
+            _, _, content = next(os.walk(SCREENSHOTS_PATH))
             self.json_response(200, ['/screenshots/' + x for x in content if x != '.gitignore'])
             return
         elif self.path.startswith('/screenshots/'):
